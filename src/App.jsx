@@ -13,7 +13,13 @@ import WatchedMoviesList from "./components/WatchedMovieList";
 import WatchedSummary from "./components/WatchedSummary";
 
 //define it here and take it out of the render logic
-const KEY = "c2d2b2a9";
+const apiKey = process.env.REACT_APP_API_KEY;
+
+if (!apiKey) {
+  console.error(
+    "API key is missing. Please set REACT_APP_API_KEY in your environment variables."
+  );
+}
 
 export default function App() {
   const [movies, setMovies] = useState([]);
@@ -27,7 +33,7 @@ export default function App() {
 
   const [watched, setWatched] = useState(function () {
     const storedValue = localStorage.getItem("watched");
-    return JSON.parse(storedValue);
+    return storedValue ? JSON.parse(storedValue) : [];
   });
 
   //event handler function that we pass down to child componenent to update the state in the parent
@@ -70,7 +76,7 @@ export default function App() {
           // reset the error message before we start fetching for data from the movie api
           setError("");
           const response = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`,
             { signal: controller.signal }
           );
           if (!response.ok)
