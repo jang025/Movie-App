@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
 import StarRating from "./StarRating";
-const KEY = "c2d2b2a9";
+const apiKey = process.env.REACT_APP_API_KEY;
+
+if (!apiKey) {
+  console.error(
+    "API key is missing. Please set REACT_APP_API_KEY in your environment variables."
+  );
+}
 
 const MovieDetails = function ({
   selectedId,
@@ -48,7 +54,7 @@ const MovieDetails = function ({
       async function getMovieDetails() {
         setIsLoading(true);
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
+          `http://www.omdbapi.com/?apikey=${apiKey}&i=${selectedId}`
         );
         const data = await response.json();
 
