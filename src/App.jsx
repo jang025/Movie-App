@@ -76,7 +76,7 @@ export default function App() {
           // reset the error message before we start fetching for data from the movie api
           setError("");
           const response = await fetch(
-            `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`,
+            `https://www.omdbapi.com/?apikey=${apiKey}&s=${query}`,
             { signal: controller.signal }
           );
           if (!response.ok)
